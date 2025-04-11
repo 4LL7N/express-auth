@@ -10,11 +10,6 @@ export const comparePassword = (password:string,hash:string)=>{
     return bcrypt.compare(password,hash)
 }
 
-interface TokenUser extends UserType {
-    id: string;
-    createdAt: Date;
-}
-
 export const signToken = (user:{
     username:string,
     email:string,
@@ -24,7 +19,8 @@ export const signToken = (user:{
         throw new Error("no jwt secret")
     }
     return jwt.sign(
-        user
-        ,process.env.JWT_SECRET
+        user,
+        process.env.JWT_SECRET,
+        {expiresIn:60*60*3}
     )
 }
